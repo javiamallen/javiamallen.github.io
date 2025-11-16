@@ -3,155 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>LinkedIn Challenge: Prompt Engineering Case Study</title>
-    <meta name="description" content="Technical deep-dive into the LinkedIn Learning Prompt Engineering challenge, Git deployment, and frontend integration built by Javiam Allen.">
+    <title>Structured Prompting: Deployment & Automation (Case Study 1)</title>
+    <meta name="description" content="Análisis técnico del desafío de LinkedIn Learning: Prompt Engineering. Demostración de automatización con Python y arquitectura BaaS, utilizando ChatGPT para generación de activos.">
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css"> 
+    <style>
+        /* ESTILOS DE LA PÁGINA ESPECÍFICA (MODERNA, FONDO BLANCO) */
+        body {
+            background-color: #f8f9fa; 
+            color: #333;
+        }
+        .case-study-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .case-study-header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .case-study-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .case-study-section {
+            padding: 50px 0;
+            border-bottom: 1px solid #eee; 
+        }
+        .case-study-section:last-of-type {
+            border-bottom: none;
+        }
+        .case-study-section h2, .case-study-section h3, .case-study-section h4 {
+            font-family: 'Cinzel', serif;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        /* ESTILO PARA LAS MINI-CARDS DE HABILIDADES */
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .tech-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-weight: 700; 
+            color: var(--text-color);
+            font-size: 0.9rem;
+            transition: transform 0.1s ease;
+        }
+        .tech-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+        .ai-model {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-size: 1rem;
+            padding: 15px 10px;
+        }
+        .ai-model p { 
+            font-weight: normal; 
+            font-size: 0.85rem; 
+            margin-top: 5px;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
 
-    <link rel="stylesheet" href="/style.css"> 
+        /* Estilo para el Bloque de Código de Prompt */
+        .prompt-example {
+            background-color: #282c34;
+            color: #f8f8f2;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 20px;
+            overflow-x: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .prompt-example h5 {
+            color: #61dafb;
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+        .prompt-example pre {
+            margin: 0;
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+        }
+        /* Colores de sintaxis para YAML/Código */
+        .yaml-comment { color: #5c6370; } 
+        .yaml-key { color: #e06c75; } 
+        .yaml-string { color: #98c379; } 
+        .yaml-operator { color: #c678dd; } 
+        .prompt-highlight {
+            font-weight: bold;
+            color: #e0b0ff; 
+        }
+
+        .download-btn-wrapper {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        /* Ajustes de Tipografía */
+        .boldy {
+            font-weight: 700;
+        }
+
+        .challenge-list {
+            list-style: none;
+            padding-left: 0;
+            text-align: left;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 20px;
+        }
+        .challenge-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+        .challenge-list li:last-child {
+            border-bottom: none;
+        }
+        .challenge-list .boldy {
+            color: var(--primary-color);
+        }
+
+        .key-takeaway {
+            background-color: #e9ecef; 
+            padding: 25px;
+            border-left: 5px solid var(--primary-color);
+            margin-top: 40px;
+            font-style: italic;
+            color: #555;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .key-takeaway p {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+        }
+
+        .back-to-portfolio-btn {
+            display: inline-block;
+            margin-top: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .back-to-portfolio-btn:hover {
+            background-color: #5a0ca0;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Estilos específicos para el generador interactivo */
+        .interactive-generator-section {
+            background-color: #f1f3f5;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+        .interactive-generator-section h3 {
+            color: #4a0d81; /* Un color un poco más suave */
+            margin-bottom: 25px;
+        }
+        .generate-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block; /* Para centrarlo con margin auto */
+            margin: 25px auto;
+            min-width: 250px;
+        }
+        .generate-button:hover {
+            background-color: #5a0ca0;
+            transform: translateY(-2px);
+        }
+        .generated-output {
+            background-color: #e9ecef; /* Un fondo más claro para el output "simulado" */
+            color: #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 20px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace; /* Fuente monoespaciada para el output */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            min-height: 200px; /* Para que siempre tenga un tamaño visible */
+            display: flex; /* Para centrar el texto verticalmente si está vacío */
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        .generated-output.active {
+            opacity: 1;
+            font-style: normal;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .interactive-generator-section {
+                padding: 30px;
+            }
+            .generate-button {
+                min-width: unset;
+                width: 100%;
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+            .generated-output {
+                font-size: 0.9rem;
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <header>
+    <header class="case-study-header">
         <div class="container">
-            <h1 class="logo">Javiam Allen</h1>
-            <p class="subtitle">Structured AI Developer & Technical Problem Solver</p>
+            <h1>Case Study 1: Structured Prompting & Automated Asset Generation</h1>
+            <p>This project resolves a challenge from the LinkedIn Learning certification: <span class="boldy">"Introducción a la ingeniería de avisos para IA generativa"</span>, specifically the "Text Generation" unit.</p>
         </div>
     </header>
 
     <main>
-        
-        <section class="hero">
-            <div class="container">
-                <h2>LinkedIn Challenge: Prompt Engineering Case Study</h2>
-                <p>This page details the solution to a LinkedIn Learning challenge, expanded into a robust technical demonstration.</p>
-            </div>
-        </section>
+        <div class="container">
+            <section class="case-study-section">
+                <h2>AI Models & Technical Stack</h2>
+                
+                <div class="tech-stack-grid">
+                    <div class="tech-card ai-model">
+                        <span class="boldy">Wonder (Gemini Pro 2.5)</span>
+                        <p class="mb-0" style="font-weight: normal; font-size: 0.85rem;">[Core Development & Strategy]</p>
+                    </div>
+                    <div class="tech-card ai-model">
+                        <span class="boldy">ChatGPT</span>
+                        <p class="mb-0" style="font-weight: normal; font-size: 0.85rem;">[Initial Asset Generation & Python Scripting]</p>
+                    </div>
+                </div>
 
-        <section class="challenge-details">
-            <div class="container">
-                <h3>1. The Challenge (LinkedIn Learning)</h3>
-                <p>The core task was to utilize AI to generate a professional presentation outline. This required precise instruction design to meet specific content and format constraints.</p>
+                <div class="tech-stack-grid mt-4">
+                    <div class="tech-card">Prompt Engineering</div>
+                    <div class="tech-card">Generative AI</div>
+                    <div class="tech-card">Frontend Development</div>
+                    <div class="tech-card">Bootstrap 5</div>
+                    <div class="tech-card">JavaScript (DOM)</div>
+                    <div class="tech-card">Python (Scripting)</div>
+                    <div class="tech-card">Version Control (Git)</div>
+                    <div class="tech-card">CI/CD (GitHub Pages)</div>
+                    <div class="tech-card">Backend-as-a-Service (Formspree)</div>
+                    <div class="tech-card">Responsive Design</div>
+                    <div class="tech-card">Automated Deployment</div>
+                </div>
+            </section>
+
+            <section class="case-study-section">
+                <h2>The Challenge & Prompt Strategy</h2>
+                <p>The goal was to engineer a prompt that not only generated text but also forced strict format compliance and scaled to produce a final, usable file (PPTX).</p>
 
                 <div class="challenge-points">
-                    <h4>Challenge Requirements:</h4>
-                    <ul>
-                        <li>**Objective:** Create a presentation outline/slides.</li>
-                        <li>**Topic:** Prompt Engineering.</li>
-                        <li>**Audience:** From your industry/discipline (Tech Consultants).</li>
-                    </ul>
-                    <h4>Output Constraints:</h4>
-                    <ul>
-                        <li>**Format:** ~6 slides.</li>
-                        <li>**Content:** ~5 key points per slide.</li>
-                        <li>**Length:** ~6-8 words per point.</li>
+                    <h4>LinkedIn Challenge Requirements:</h4>
+                    <ul class="challenge-list">
+                        <li><span class="boldy">Objective:</span> Create a presentation outline/slides.</li>
+                        <li><span class="boldy">Audience:</span> Tech Consultants (A high-level persona).</li>
+                        <li><span class="boldy">Output Constraints:</span> 6 slides, 5 points per slide, max 6 words per point.</li>
                     </ul>
                 </div>
 
-                <div class="source-content-dynamic" style="text-align: center; margin: 30px auto; max-width: 800px;">
-                    <h5 style="color: #8a4baf; font-size: 1.1rem; margin-bottom: 20px;">Randomized Prompt Engineering Insight:</h5>
-                    <div id="wiki-quote-container">
-                        <div class="alert alert-dark">Loading content...</div>
-                    </div>
-                </div>
+                <div class="prompt-example mb-5">
+                    <h5>Prompt Execution: Structured Instruction (Prompt-to-Code)</h5>
+                    <pre><code><span class="yaml-key"># FASE 1: Generación del Esquema de Presentación (con ChatGPT)</span>
+<span class="yaml-comment"># El prompt se envió a ChatGPT con la instrucción de formato y el texto de contexto de Wikipedia.</span>
+<span class="yaml-key">INSTRUCTION:</span> Crea un esquema para una presentación PPT sobre ingeniería rápida.
+<span class="yaml-key">AUDIENCE:</span> Dirigida a consultores tecnológicos.
+<span class="yaml-key">CONSTRAINTS:</span> 6 diapositivas, 5 puntos por diapositiva, ~6 palabras por punto.
+<span class="yaml-key">SOURCE_DATA:</span> [Contenido relevante sobre Prompt Engineering, e.g., de Wikipedia]
 
-            </div>
-        </section>
-
-        <section class="product">
-            <div class="container">
-                <h3>2. The Engineered Solution: Structured Prompting</h3>
-                <p>The solution involved crafting a structured prompt that treated the AI as a predictable API, ensuring the output adhered to all challenge constraints. This goes beyond simple conversational AI.</p>
-                
-                <div class="prompt-example">
-                    <h5>Structured Prompt (YAML Configuration Style)</h5>
-                    <pre><code><span class="yaml-comment"># Defines a structured data approach to prompting</span>
 <span class="yaml-key">---</span>
-<span class="yaml-key">role:</span> <span class="yaml-string">"Senior Technical Advisor, Generative AI Specialist"</span>
-<span class="yaml-key">task:</span> <span class="yaml-string">"Generate a 6-slide presentation outline."</span>
-<span class="yaml-key">topic:</span> <span class="yaml-string">"Prompt Engineering for Business Value"</span>
 
-<span class="yaml-key">audience:</span>
-  <span class="yaml-key">type:</span> <span class="yaml-string">"Technology Consultants"</span>
-  <span class="yaml-key">needs:</span> <span class="yaml-string">"Business applications, not just academic theory."</span>
-
-<span class="yaml-key">constraints:</span>
-  <span class="yaml-key">- format:</span> <span class="yaml-string">"6 slides"</span>
-  <span class="yaml-key">- content:</span> <span class="yaml-string">"5 key points per slide"</span>
-  <span class="yaml-key">- length:</span> <span class="yaml-string">"~6-8 words per point"</span>
-  <span class="yaml-key">- tone:</span> <span class="yaml-string">"Professional, informative, direct"</span>
-<span class="yaml-key">---</span></code></pre>
+<span class="yaml-key"># FASE 2: Solicitud de Script de Automatización (ChatGPT: Python para PPTX)</span>
+<span class="yaml-comment"># Usando el esquema generado, se instruyó a ChatGPT para producir el código de automatización:</span>
+<span class="yaml-key">TASK:</span> "Ejecutar un script de Python para generar un PPTX, que es un archivo de presentación de PowerPoint, archivo que contiene las diapositivas."</code></pre>
                 </div>
-                <p class="mt-4">This YAML-style approach demonstrates how I structure data for an AI, emphasizing **Role-Based Tasking**, **Audience Scoping**, and **Strict Output Constraints** to achieve precise results.</p>
-                
-                <a href="../assets/prompt_engineering_presentation.pptx" class="cta-button" download>
-                    <span class="main-text">Download the AI-Generated Asset (.pptx)</span>
-                    <span class="sub-text">Served via GitHub Pages</span>
-                </a>
-            </div>
-        </section>
 
-        <section class="process">
-            <div class="container">
-                <h3>3. The Stack: Engineering Skillset</h3>
-                <p>Generating the asset was the starting point. The remaining work involved building a robust platform to demonstrate a full range of technical capabilities.</p>
-                
-                <div class="skills-grid">
-                    
-                    <div class="skill-card">
-                        <h4>AI-Accelerated Development & Prompt Engineering</h4>
-                        <p>Leveraged <strong>Gemini (Google's AI)</strong> as a technical partner. Utilized **Prompt Engineering** for asset generation and Generative AI for code, debugging, and workflow acceleration.</p>
-                    </div>
-                    
-                    <div class="skill-card">
-                        <h4>Frontend Development (HTML, CSS & Bootstrap)</h4>
-                        <p>Structured the site with semantic HTML5, styled with custom CSS & Bootstrap 5, and implemented client-side validation using custom regex <code>pattern</code> for robust UX.</p>
-                    </div>
-                    
-                    <div class="skill-card">
-                        <h4>Dynamic Content & DOM Manipulation</h4>
-                        <p>Implemented **JavaScript DOM Manipulation** to dynamically inject randomized content (Wikipedia quotes) upon page load, demonstrating core frontend programming skills.</p>
-                    </div>
-                    
-                    <div class="skill-card">
-                        <h4>Responsive & Mobile-First Design</h4>
-                        <p>Implemented a "mobile-first" philosophy. Used Bootstrap's grid system, CSS Grid (<code>minmax()</code>), and the <code>viewport</code> meta tag to ensure the site is fully responsive and provides a flawless UX on all devices.</p>
-                    </div>
-                    
-                    <div class="skill-card">
-                        <h4>Version Control (Git)</h4>
-                        <p>Mastered the essential Git workflow: <code>git clone</code>, <code>git add</code>, <code>git commit</code>, and <code>git push</code> for robust source code management.</p>
-                    </div>
-                    
-                    <div class="skill-card">
-                        <h4>CI/CD & Deployment (GitHub Pages)</h4>
-                        <p>Took a local repository and successfully deployed it to a public production environment (<code>javiamallen.github.io</code>) using GitHub's CI/CD pipeline (Pages).</p>
-                    </div>
-                    
-                    <div class="skill-card">
-                        <h4>Backend Integration (BaaS)</h4>
-                        <p>Integrated a secure, functional contact form with <strong>Formspree</strong>, a Backend-as-a-Service (BaaS), to handle API-based data submission from a static site.</p>
-                    </div>
+                <p class="mt-4">This workflow demonstrates <span class="boldy">Prompt Engineering as Code</span>, moving beyond simple text generation to creating functional assets. Crucial para la <span class="boldy">automatización de procesos en IA Engineering</span>, este enfoque enfatiza la capacidad de <span class="boldy">ChatGPT para generar código</span> que, a su vez, construye archivos complejos.</p>
 
-                    <div class="skill-card">
-                        <h4>Project Management & Lifecycle</h4>
-                        <p>Managed the entire project lifecycle, from the initial (LinkedIn) challenge, through engineering (Git, Frontend, BaaS), to the final deployed product.</p>
-                    </div>
+                <h3>Generación y Hosting del PPTX: Un Activo Dinámico y Auto-Servido</h3>
+                <p>El esquema de presentación, inicialmente generado por ChatGPT en formato de texto estructurado, fue posteriormente utilizado como la entrada para un script de Python <span class="boldy">proporcionado por ChatGPT</span>. Este script, al ser ejecutado, interpreta la estructura del texto y construye dinámicamente el archivo PowerPoint (.pptx). Al alojarlo en GitHub Pages, el activo resultante se convierte en un recurso <span class="boldy">auto-servido y disponible de forma dinámica</span>.</p>
+                
+                <h4>Ejemplo de Contenido Estructurado para el Script de Python</h4>
+                <div class="prompt-example">
+                    <pre><code id="presentation-outline-content">Contenido de ejemplo pre-generado por IA.</code></pre>
+                    <p class="text-center text-light mt-3 mb-0" style="font-size: 0.9em; opacity: 0.7;">(Esta es una representación del tipo de esquema que la IA produce para el script de Python)</p>
                 </div>
-            </div>
-        </section>
+
+                <h4>Fragmento de Código Python para Generación PPTX (Proporcionado por ChatGPT)</h4>
+                <div class="prompt-example">
+                    <h5>`generate_ppt.py` (Simplified Example)</h5>
+                    <pre><code class="language-python">from pptx import Presentation
+from pptx.util import Inches
+
+def create_presentation_from_text(text_outline, output_filename="presentation.pptx"):
+    prs = Presentation()
+    
+    # Divide el esquema en diapositivas
+    slides_data = text_outline.strip().split('\n\n')
+
+    for slide_text in slides_data:
+        lines = slide_text.split('\n')
+        if not lines: continue
+        
+        # Asumiendo que el título está en la primera línea
+        title = lines[0] if lines[0].startswith("Slide") else "Untitled Slide" 
+        if title.startswith("Slide"):
+            title = title.split(':', 1)[1].strip() # Eliminar "Slide X:"
+
+        content_points = [line.strip('- ') for line in lines[1:] if line.strip()]
+
+        # Añadir diapositiva con título y viñetas
+        slide_layout = prs.slide_layouts[1] # Layout de Título y Contenido (común)
+        slide = prs.slides.add_slide(slide_layout)
+        title_obj = slide.shapes.title
+        body_obj = slide.shapes.placeholders[1]
+
+        title_obj.text = title
+
+        tf = body_obj.text_frame
+        tf.clear() 
+        
+        for point in content_points:
+            p = tf.add_paragraph()
+            p.text = point
+            p.level = 0 
+
+    prs.save(output_filename)
+    print(f"Presentación '{output_filename}' generada exitosamente.")
+
+# --- Uso del script (ejecutado por el ingeniero) ---
+# presentation_outline_text = """
+# Slide 1: Introducción a la Ingeniería de Avisos
+# - Definición y relevancia en la IA.
+# ... (el texto completo del esquema aquí)
+# """
+# create_presentation_from_text(presentation_outline_text, "prompt_engineering_presentation.pptx")
+</code></pre>
+                </div>
+
+                <p class="mt-4">Este flujo de trabajo subraya la capacidad de <span class="boldy">IA para generar no solo contenido, sino también código funcional</span> (`python-pptx`), permitiendo una <span class="boldy">automatización completa desde el prompt hasta el activo desplegado</span>. La integración con GitHub Pages asegura que este activo sea <span class="boldy">dinámico, auto-servido y escalable</span>.</p>
+                
+                <div class="download-btn-wrapper">
+                    <a href="../assets/prompt_engineering_presentation.pptx" class="cta-button" download>
+                        <span class="main-text">Descargar PPTX de Ejemplo (Generado por IA)</span>
+                        <span class="sub-text">Activo estático, demuestra el output final</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="case-study-section interactive-generator-section">
+                <h3>Genera un Esquema de Presentación con IA (Simulado)</h3>
+                <p class="text-center text-muted">
+                    Haz clic en el botón para ver un ejemplo dinámico de cómo la IA puede estructurar una presentación. 
+                    Esto simula la capacidad de ChatGPT para generar contenido.
+                </p>
+                <button id="generateOutlineBtn" class="generate-button">Generar Nuevo Esquema de PPT</button>
+                <div id="interactiveOutput" class="generated-output">
+                    Aquí aparecerá tu esquema generado por IA...
+                </div>
+            </section>
+
+            <section class="case-study-section">
+                <h2>Conclusion</h2>
+                <div class="key-takeaway">
+                    <p class="mb-0">"This project exemplifies a streamlined development workflow, where AI acts as a co-pilot, significantly accelerating content generation and initial code scaffolding, while traditional engineering ensures stability and functionality. The mastery of structured prompting is key to repeatable, high-quality results."</p>
+                </div>
+            </section>
+
+            <section class="case-study-section text-center">
+                <a href="../index.html" class="back-to-portfolio-btn">← Back to Portfolio Hub</a>
+            </section>
+        </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>© 2025 Javiam Allen. Built with an AI-Accelerated Wonderlust My Gemini Pro 2.5 Model <span id="heart-symbol">&#x2764;</span>.</p>
-        </div>
+    <footer class="text-center py-4 bg-dark text-white">
+        <p>© 2025 Javiam Allen. Built with Wonderlust by <span class="boldy">Gemini Pro 2.5</span>.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="../script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Arrays de posibles títulos y puntos clave para la generación aleatoria
+            const presentationTitles = [
+                "Introducción a la Ingeniería de Avisos: Fundamentos",
+                "Prompt Engineering Avanzado para Consultores Tech",
+                "Maximizando LLMs: Estrategias de Prompting Efectivo",
+                "Automatización con IA Generativa: Casos de Éxito",
+                "El Futuro de la IA: Ingeniería de Prompts y MLOps"
+            ];
+
+            const allPoints = [
+                "Definición y relevancia en la IA.",
+                "Historia y evolución de los prompts.",
+                "Impacto en el desarrollo de modelos.",
+                "Beneficios para la eficiencia operativa.",
+                "Casos de uso en la industria.",
+                "Claridad y especificidad cruciales.",
+                "Rol, tarea y formato.",
+                "Contexto y ejemplos vitales.",
+                "Limitaciones y restricciones.",
+                "Iteración y refinamiento constante.",
+                "Zero-shot, few-shot, y Chain-of-Thought.",
+                "Técnicas para manejar ambigüedad.",
+                "Uso de placeholders y variables.",
+                "Integración de ejemplos negativos.",
+                "Mejora de la reproducibilidad del output.",
+                "Optimización de chatbots de soporte.",
+                "Generación de contenido de marketing.",
+                "Automatización de informes.",
+                "Análisis de sentimiento específico.",
+                "Adaptación a datos propietarios.",
+                "Sesgos y equidad en la generación.",
+                "Protección de la privacidad de datos.",
+                "Riesgos de uso indebido de IA.",
+                "Necesidad de supervisión humana.",
+                "Desarrollo responsable de IA.",
+                "Herramientas y plataformas emergentes.",
+                "Rol creciente en la IA empresarial.",
+                "Intersección con MLOps.",
+                "Educación y nuevas habilidades.",
+                "Impacto en la innovación.",
+                "Medición del rendimiento de prompts.",
+                "Debugging de prompts ineficaces.",
+                "Versionado y gestión de prompts.",
+                "Seguridad en la ingeniería de avisos.",
+                "Personalización del comportamiento del modelo."
+            ];
+
+            // Función para obtener elementos aleatorios de un array
+            function getRandomElements(arr, num) {
+                const shuffled = [...arr].sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, num);
+            }
+
+            // Función para generar un esquema de presentación dinámico
+            function generateDynamicPresentationOutline() {
+                const randomTitle = getRandomElements(presentationTitles, 1)[0];
+                const numPoints = Math.floor(Math.random() * 2) + 4; // Entre 4 y 5 puntos
+                const selectedPoints = getRandomElements(allPoints, numPoints);
+                
+                let outlineText = `Slide 1: ${randomTitle}\n`;
+                selectedPoints.forEach(point => {
+                    outlineText += `- ${point}\n`;
+                });
+                
+                return outlineText.trim();
+            }
+
+            // --- Lógica para el generador interactivo ---
+            const generateButton = document.getElementById('generateOutlineBtn');
+            const interactiveOutput = document.getElementById('interactiveOutput');
+
+            // Función para actualizar el output interactivo
+            function updateInteractiveOutput() {
+                interactiveOutput.textContent = "Generando..."; // Mensaje de carga
+                interactiveOutput.classList.remove('active'); // Quita la clase para restablecer estilo si se había aplicado
+                
+                // Simula un pequeño retraso para parecer que la IA está "pensando"
+                setTimeout(() => {
+                    const generatedOutline = generateDynamicPresentationOutline();
+                    interactiveOutput.textContent = generatedOutline;
+                    interactiveOutput.classList.add('active'); // Añade la clase para el estilo de contenido generado
+                }, 800); // Retraso de 0.8 segundos
+            }
+
+            // Asigna el evento click al botón
+            generateButton.addEventListener('click', updateInteractiveOutput);
+
+            // También generamos un esquema inicial cuando la página carga por primera vez para la sección interactiva
+            updateInteractiveOutput();
+
+            // --- Lógica para el ejemplo estático (si aún lo quieres mantener) ---
+            // Si quieres un contenido fijo para el primer bloque de ejemplo de Python, puedes dejarlo así.
+            // Si quieres que ese también se genere una vez al cargar la página (sin botón), 
+            // puedes llamar a generateDynamicPresentationOutline() para el 'presentation-outline-content' ID aquí:
+            // document.getElementById('presentation-outline-content').textContent = generateDynamicPresentationOutline();
+            document.getElementById('presentation-outline-content').textContent = 
+                `Slide 1: Introducción a la Ingeniería de Avisos
+                - Definición y relevancia en la IA.
+                - Historia y evolución de los prompts.
+                - Impacto en el desarrollo de modelos.
+                - Beneficios para la eficiencia operativa.
+                - Casos de uso en la industria.`;
+        });
+    </script>
+
 </body>
 </html>
