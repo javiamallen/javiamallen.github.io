@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Structured Prompting: Deployment & Automation (Case Study 1)</title>
     <meta name="description" content="Análisis técnico del desafío de LinkedIn Learning: Prompt Engineering. Demostración de automatización con Python y arquitectura BaaS, utilizando ChatGPT para generación de activos.">
-
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="../style.css"> 
+    
     <style>
+        /* Definición de variables de color por si no están en style.css (RECOMENDACIÓN: Mover a style.css) */
+        :root {
+            --primary-color: #7b1fa2; /* Morado Oscuro/Principal */
+            --accent-color: #ede7f6; /* Morado Claro */
+            --text-color: #333;
+            --border-color: #ccc;
+            --card-background: #fff;
+        }
         /* ESTILOS DE LA PÁGINA ESPECÍFICA (MODERNA, FONDO BLANCO) */
         body {
             background-color: #f8f9fa; 
@@ -45,7 +54,6 @@
             text-align: center;
             font-weight: 700;
         }
-        
         /* ESTILO PARA LAS MINI-CARDS DE HABILIDADES */
         .tech-stack-grid {
             display: grid;
@@ -84,7 +92,6 @@
             margin-bottom: 0;
             opacity: 0.9;
         }
-
         /* Estilo para el Bloque de Código de Prompt */
         .prompt-example {
             background-color: #282c34;
@@ -182,76 +189,6 @@
             background-color: #5a0ca0;
             color: white;
             transform: translateY(-2px);
-        }
-
-        /* Estilos específicos para el generador interactivo */
-        .interactive-generator-section {
-            background-color: #f1f3f5;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-top: 50px;
-        }
-        .interactive-generator-section h3 {
-            color: #4a0d81; /* Un color un poco más suave */
-            margin-bottom: 25px;
-        }
-        .generate-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            display: block; /* Para centrarlo con margin auto */
-            margin: 25px auto;
-            min-width: 250px;
-        }
-        .generate-button:hover {
-            background-color: #5a0ca0;
-            transform: translateY(-2px);
-        }
-        .generated-output {
-            background-color: #e9ecef; /* Un fondo más claro para el output "simulado" */
-            color: #333;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 20px;
-            overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace; /* Fuente monoespaciada para el output */
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            min-height: 200px; /* Para que siempre tenga un tamaño visible */
-            display: flex; /* Para centrar el texto verticalmente si está vacío */
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-style: italic;
-            opacity: 0.8;
-        }
-        .generated-output.active {
-            opacity: 1;
-            font-style: normal;
-            text-align: left;
-        }
-
-        @media (max-width: 768px) {
-            .interactive-generator-section {
-                padding: 30px;
-            }
-            .generate-button {
-                min-width: unset;
-                width: 100%;
-                font-size: 1rem;
-                padding: 10px 15px;
-            }
-            .generated-output {
-                font-size: 0.9rem;
-                padding: 1rem;
-            }
         }
     </style>
 </head>
@@ -383,8 +320,7 @@ def create_presentation_from_text(text_outline, output_filename="presentation.pp
 # - Definición y relevancia en la IA.
 # ... (el texto completo del esquema aquí)
 # """
-# create_presentation_from_text(presentation_outline_text, "prompt_engineering_presentation.pptx")
-</code></pre>
+# create_presentation_from_text(presentation_outline_text, "prompt_engineering_presentation.pptx")</code></pre>
                 </div>
 
                 <p class="mt-4">Este flujo de trabajo subraya la capacidad de <span class="boldy">IA para generar no solo contenido, sino también código funcional</span> (`python-pptx`), permitiendo una <span class="boldy">automatización completa desde el prompt hasta el activo desplegado</span>. La integración con GitHub Pages asegura que este activo sea <span class="boldy">dinámico, auto-servido y escalable</span>.</p>
@@ -394,18 +330,6 @@ def create_presentation_from_text(text_outline, output_filename="presentation.pp
                         <span class="main-text">Descargar PPTX de Ejemplo (Generado por IA)</span>
                         <span class="sub-text">Activo estático, demuestra el output final</span>
                     </a>
-                </div>
-            </section>
-
-            <section class="case-study-section interactive-generator-section">
-                <h3>Genera un Esquema de Presentación con IA (Simulado)</h3>
-                <p class="text-center text-muted">
-                    Haz clic en el botón para ver un ejemplo dinámico de cómo la IA puede estructurar una presentación. 
-                    Esto simula la capacidad de ChatGPT para generar contenido.
-                </p>
-                <button id="generateOutlineBtn" class="generate-button">Generar Nuevo Esquema de PPT</button>
-                <div id="interactiveOutput" class="generated-output">
-                    Aquí aparecerá tu esquema generado por IA...
                 </div>
             </section>
 
@@ -427,111 +351,15 @@ def create_presentation_from_text(text_outline, output_filename="presentation.pp
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Arrays de posibles títulos y puntos clave para la generación aleatoria
-            const presentationTitles = [
-                "Introducción a la Ingeniería de Avisos: Fundamentos",
-                "Prompt Engineering Avanzado para Consultores Tech",
-                "Maximizando LLMs: Estrategias de Prompting Efectivo",
-                "Automatización con IA Generativa: Casos de Éxito",
-                "El Futuro de la IA: Ingeniería de Prompts y MLOps"
-            ];
-
-            const allPoints = [
-                "Definición y relevancia en la IA.",
-                "Historia y evolución de los prompts.",
-                "Impacto en el desarrollo de modelos.",
-                "Beneficios para la eficiencia operativa.",
-                "Casos de uso en la industria.",
-                "Claridad y especificidad cruciales.",
-                "Rol, tarea y formato.",
-                "Contexto y ejemplos vitales.",
-                "Limitaciones y restricciones.",
-                "Iteración y refinamiento constante.",
-                "Zero-shot, few-shot, y Chain-of-Thought.",
-                "Técnicas para manejar ambigüedad.",
-                "Uso de placeholders y variables.",
-                "Integración de ejemplos negativos.",
-                "Mejora de la reproducibilidad del output.",
-                "Optimización de chatbots de soporte.",
-                "Generación de contenido de marketing.",
-                "Automatización de informes.",
-                "Análisis de sentimiento específico.",
-                "Adaptación a datos propietarios.",
-                "Sesgos y equidad en la generación.",
-                "Protección de la privacidad de datos.",
-                "Riesgos de uso indebido de IA.",
-                "Necesidad de supervisión humana.",
-                "Desarrollo responsable de IA.",
-                "Herramientas y plataformas emergentes.",
-                "Rol creciente en la IA empresarial.",
-                "Intersección con MLOps.",
-                "Educación y nuevas habilidades.",
-                "Impacto en la innovación.",
-                "Medición del rendimiento de prompts.",
-                "Debugging de prompts ineficaces.",
-                "Versionado y gestión de prompts.",
-                "Seguridad en la ingeniería de avisos.",
-                "Personalización del comportamiento del modelo."
-            ];
-
-            // Función para obtener elementos aleatorios de un array
-            function getRandomElements(arr, num) {
-                const shuffled = [...arr].sort(() => 0.5 - Math.random());
-                return shuffled.slice(0, num);
-            }
-
-            // Función para generar un esquema de presentación dinámico
-            function generateDynamicPresentationOutline() {
-                const randomTitle = getRandomElements(presentationTitles, 1)[0];
-                const numPoints = Math.floor(Math.random() * 2) + 4; // Entre 4 y 5 puntos
-                const selectedPoints = getRandomElements(allPoints, numPoints);
-                
-                let outlineText = `Slide 1: ${randomTitle}\n`;
-                selectedPoints.forEach(point => {
-                    outlineText += `- ${point}\n`;
-                });
-                
-                return outlineText.trim();
-            }
-
-            // --- Lógica para el generador interactivo ---
-            const generateButton = document.getElementById('generateOutlineBtn');
-            const interactiveOutput = document.getElementById('interactiveOutput');
-
-            // Función para actualizar el output interactivo
-            function updateInteractiveOutput() {
-                interactiveOutput.textContent = "Generando..."; // Mensaje de carga
-                interactiveOutput.classList.remove('active'); // Quita la clase para restablecer estilo si se había aplicado
-                
-                // Simula un pequeño retraso para parecer que la IA está "pensando"
-                setTimeout(() => {
-                    const generatedOutline = generateDynamicPresentationOutline();
-                    interactiveOutput.textContent = generatedOutline;
-                    interactiveOutput.classList.add('active'); // Añade la clase para el estilo de contenido generado
-                }, 800); // Retraso de 0.8 segundos
-            }
-
-            // Asigna el evento click al botón
-            generateButton.addEventListener('click', updateInteractiveOutput);
-
-            // También generamos un esquema inicial cuando la página carga por primera vez para la sección interactiva
-            updateInteractiveOutput();
-
-            // --- Lógica para el ejemplo estático (si aún lo quieres mantener) ---
-            // Si quieres un contenido fijo para el primer bloque de ejemplo de Python, puedes dejarlo así.
-            // Si quieres que ese también se genere una vez al cargar la página (sin botón), 
-            // puedes llamar a generateDynamicPresentationOutline() para el 'presentation-outline-content' ID aquí:
-            // document.getElementById('presentation-outline-content').textContent = generateDynamicPresentationOutline();
             document.getElementById('presentation-outline-content').textContent = 
                 `Slide 1: Introducción a la Ingeniería de Avisos
-                - Definición y relevancia en la IA.
-                - Historia y evolución de los prompts.
-                - Impacto en el desarrollo de modelos.
-                - Beneficios para la eficiencia operativa.
-                - Casos de uso en la industria.`;
+- Definición y relevancia en la IA.
+- Historia y evolución de los prompts.
+- Impacto en el desarrollo de modelos.
+- Beneficios para la eficiencia operativa.
+- Casos de uso en la industria.`;
         });
     </script>
 

@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Generated Tetris with Claude & Few-Shot Learning (Case Study 2)</title>
-    <meta name="description" content="Desafío de LinkedIn Learning: Utilización de Few-Shot Learning con Claude para generar el código funcional de un juego de Tetris, demostrando la generación de activos complejos por IA y el poder de los 'Artifacts'.">
+    <title>Case Study 2: AI-Generated Tetris (Claude & Few-Shot Learning)</title>
+    <meta name="description" content="Explore how Few-Shot Learning and Claude's 'Artifacts' generated functional code for a Tetris game, showcasing AI's ability to produce complex assets.">
 
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../style.css"> 
     <style>
-        /* ESTILOS DE LA PÁGINA ESPECÍFICA (MODERNA, FONDO BLANCO) */
+        /* Specific page styles for the case studies (clean, white background) */
         body {
-            background-color: #f8f9fa; 
-            color: #333;
+            background-color: #f8f9fa; /* Soft white background */
+            color: #212529; /* Dark text for contrast */
+            font-family: 'Lato', sans-serif;
         }
         .case-study-header {
-            background-color: var(--secondary-color); /* Color secundario para diferenciar */
+            background-color: #6f42c1; /* Violet header */
             color: white;
             padding: 60px 0;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         .case-study-header h1 {
             font-family: 'Cinzel', serif;
@@ -33,47 +34,50 @@
         }
         .case-study-section {
             padding: 50px 0;
-            border-bottom: 1px solid #eee; 
+            border-bottom: 1px solid #e9ecef; /* Light gray separator */
         }
         .case-study-section:last-of-type {
             border-bottom: none;
         }
         .case-study-section h2, .case-study-section h3, .case-study-section h4 {
             font-family: 'Cinzel', serif;
-            color: var(--secondary-color); /* Color secundario */
+            color: #6f42c1; /* Violet for section titles */
             margin-bottom: 30px;
             text-align: center;
             font-weight: 700;
         }
         
-        /* ESTILO PARA LAS MINI-CARDS DE HABILIDADES */
+        /* Styles for mini-skill cards */
         .tech-stack-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 10px;
             margin-top: 20px;
             justify-content: center;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .tech-card {
-            background-color: #fff;
-            border: 1px solid var(--border-color);
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
             border-radius: 6px;
             padding: 12px 8px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             font-weight: 700; 
-            color: var(--text-color);
+            color: #495057;
             font-size: 0.9rem;
             transition: transform 0.1s ease;
         }
         .tech-card:hover {
             transform: translateY(-2px);
-            border-color: var(--secondary-color); /* Color secundario */
+            border-color: #6f42c1; /* Violet on hover */
         }
         .ai-model {
-            background-color: var(--accent-color);
-            color: var(--secondary-color); /* Color secundario */
-            border-color: var(--secondary-color); /* Color secundario */
+            background-color: #e6e0f7; /* Lighter violet background */
+            color: #6f42c1; /* Violet text */
+            border-color: #6f42c1; /* Violet border */
             font-size: 1rem;
             padding: 15px 10px;
         }
@@ -85,43 +89,7 @@
             opacity: 0.9;
         }
 
-        /* Estilo para el Bloque de Código de Prompt */
-        .prompt-example {
-            background-color: #282c34;
-            color: #f8f8f2;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 20px;
-            overflow-x: auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .prompt-example h5 {
-            color: #61dafb;
-            text-align: center;
-            margin-bottom: 15px;
-            font-family: 'Lato', sans-serif;
-            font-weight: 700;
-        }
-        .prompt-example pre {
-            margin: 0;
-            white-space: pre-wrap; 
-            word-wrap: break-word;
-            font-size: 0.85rem; /* Ajustar tamaño para que quepa */
-        }
-        /* Colores de sintaxis para YAML/Código (ajustados para prompts de código) */
-        .prompt-role { color: #e06c75; font-weight: bold; }
-        .prompt-instruction { color: #98c379; }
-        .prompt-example-label { color: #c678dd; font-weight: bold; }
-        .prompt-code-snippet { color: #61dafb; } /* Para el código de ejemplo */
-        .prompt-comment { color: #5c6370; }
-
-
-        .download-btn-wrapper {
-            text-align: center;
-            margin-top: 50px;
-        }
-        
-        /* Ajustes de Tipografía */
+        /* Typography adjustments */
         .boldy {
             font-weight: 700;
         }
@@ -132,47 +100,55 @@
             text-align: left;
             max-width: 800px;
             margin: 20px auto;
-            background-color: var(--card-background);
+            background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             padding: 20px;
+            color: #343a40;
+            border: 1px solid #dee2e6;
         }
         .challenge-list li {
             padding: 10px 0;
-            border-bottom: 1px dashed var(--border-color);
+            border-bottom: 1px dashed #ced4da;
             font-size: 1rem;
-            color: var(--text-color);
         }
         .challenge-list li:last-child {
             border-bottom: none;
         }
         .challenge-list .boldy {
-            color: var(--secondary-color); /* Color secundario */
+            color: #6f42c1;
         }
 
         .key-takeaway {
-            background-color: #e9ecef; 
+            background-color: #e9ecef;
             padding: 25px;
-            border-left: 5px solid var(--secondary-color); /* Color secundario */
+            border-left: 5px solid #6f42c1;
             margin-top: 40px;
             font-style: italic;
             color: #555;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .key-takeaway p {
             margin-bottom: 0;
             font-size: 1.05rem;
+            max-width: none;
         }
 
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
             margin-top: 40px;
-            padding: 0 15px; /* Para que no se pegue a los bordes en móvil */
+            padding: 0 15px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .navigation-buttons .btn {
-            background-color: var(--secondary-color);
+            background-color: #6f42c1;
             color: white;
             padding: 12px 20px;
             border-radius: 5px;
@@ -180,67 +156,39 @@
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.2s ease;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            min-width: 150px; /* Para que los botones tengan un tamaño decente */
+            min-width: 150px;
             text-align: center;
         }
         .navigation-buttons .btn:hover {
-            background-color: #430a73; /* Un tono más oscuro del secundario */
+            background-color: #5936a1;
             color: white;
             transform: translateY(-2px);
         }
         .back-to-hub-btn {
-            background-color: var(--text-color) !important; /* Color diferente para el hub */
+            background-color: #495057 !important;
         }
         .back-to-hub-btn:hover {
-            background-color: #555 !important;
+            background-color: #343a40 !important;
         }
 
-        /* Estilos para el iframe del juego */
-        .game-iframe-container {
-            position: relative;
-            width: 100%;
-            /* El padding-bottom es (Height / Width * 100%). Tetris es 400px alto x 200px ancho -> (400/200)*100 = 200% */
-            padding-bottom: 200%; 
-            height: 0;
-            overflow: hidden;
-            background-color: #000;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            margin: 40px auto;
-            max-width: 300px; /* Ancho máximo para el iframe del juego, ajustado a 200px del grid + padding */
-            border: 5px solid #34495e;
-        }
-
-        .game-iframe-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        .play-game-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--secondary-color);
-            padding: 15px 30px;
+        /* IFRAME specific styles for Tetris */
+        .game-container {
+            text-align: center;
+            margin-top: 40px;
+            max-width: 600px; /* Limit max width of the game area */
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid #6f42c1; /* Violet border around the game */
             border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 30px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border: 2px solid var(--secondary-color);
+            overflow: hidden; /* Ensure content stays within borders */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
-        .play-game-button:hover {
-            background-color: #f1c40f; /* Un tono más fuerte */
-            color: #2c3e50;
-            transform: translateY(-3px);
-            text-decoration: none;
+        .game-iframe {
+            width: 100%; /* Take full width of its container */
+            height: 600px; /* Fixed height for the game, adjust as needed */
+            border: none;
+            display: block; /* Remove extra space below iframe */
         }
-
         @media (max-width: 768px) {
             .case-study-header h1 {
                 font-size: 2rem;
@@ -259,19 +207,12 @@
             .tech-card.ai-model p {
                 font-size: 0.75rem;
             }
-            .prompt-example {
-                padding: 1rem;
-            }
-            .prompt-example h5 {
-                font-size: 1rem;
+            .game-iframe {
+                height: 400px; /* Smaller height for mobile */
             }
             .navigation-buttons {
-                flex-direction: column; /* Apilar botones en móvil */
-                gap: 15px; /* Espacio entre ellos */
-            }
-            .game-iframe-container {
-                padding-bottom: 250%; /* Puede que necesite más altura en móviles para el juego */
-                max-width: 100%;
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
@@ -280,122 +221,69 @@
 
     <header class="case-study-header">
         <div class="container">
-            <h1>Case Study 2: AI-Generated Tetris with Claude & Few-Shot Learning</h1>
-            <p>This project elevates a challenge from the LinkedIn Learning certification: <span class="boldy">"Introducción a la ingeniería de avisos para IA generativa"</span>, specifically the <span class="boldy">"Few-Shot Learning with Claude"</span> unit, by applying it to generative code.</p>
+            <h1>Case Study 2: AI-Generated Tetris</h1>
+            <p>This project demonstrates the power of <span class="boldy">Few-Shot Learning</span> and Anthropic's <span class="boldy">Claude AI's "Artifacts"</span> feature to generate a fully functional web-based Tetris game from conceptual prompts.</p>
         </div>
     </header>
 
     <main>
         <div class="container">
             <section class="case-study-section">
-                <h2>AI Models & Technical Stack</h2>
+                <h2>Tech Stack</h2>
                 
                 <div class="tech-stack-grid">
                     <div class="tech-card ai-model">
-                        <span class="boldy">Wonder (Gemini Pro 2.5)</span>
-                        <p class="mb-0" style="font-weight: normal; font-size: 0.85rem;">[Core Development & Strategy]</p>
-                    </div>
-                    <div class="tech-card ai-model">
-                        <span class="boldy">Claude</span>
-                        <p class="mb-0" style="font-weight: normal; font-size: 0.85rem;">[Targeted AI for Code Generation & Few-Shot Learning]</p>
+                        <span class="boldy">Claude (Anthropic)</span>
+                        <p class="mb-0">Primary model for code generation, leveraging Artifacts.</p>
                     </div>
                 </div>
 
                 <div class="tech-stack-grid mt-4">
                     <div class="tech-card">Prompt Engineering</div>
                     <div class="tech-card">Few-Shot Learning</div>
-                    <div class="tech-card">Generative AI</div>
                     <div class="tech-card">Code Generation</div>
-                    <div class="tech-card">Frontend Development (HTML, CSS, JS)</div>
-                    <div class="tech-card">Game Development (Basic)</div>
-                    <div class="tech-card">Bootstrap 5</div>
+                    <div class="tech-card">Game Development (JavaScript)</div>
+                    <div class="tech-card">HTML, CSS, JS</div>
                     <div class="tech-card">Version Control (Git)</div>
                     <div class="tech-card">CI/CD (GitHub Pages)</div>
-                    <div class="tech-card">Responsive Design</div>
                 </div>
             </section>
 
             <section class="case-study-section">
-                <h2>The Challenge: From Text to Functional Code</h2>
-                <p>While the LinkedIn Learning module focused on generating marketing text with Few-Shot Learning, I chose to demonstrate the concept's power by tackling a more complex challenge: the generation of a fully functional web-based Tetris game.</p>
+                <h2>The Challenge: Generate a Functional Game with AI</h2>
+                <p>The goal was to push the boundaries of AI code generation by creating a complex interactive application: a Tetris game. This involved providing Claude with specific instructions and examples (<span class="boldy">Few-Shot Learning</span>) to guide its output, leveraging its ability to produce self-contained code blocks (Artifacts).</p>
                 
                 <div class="challenge-points">
-                    <h4>LinkedIn Challenge Requirements (Reimagined):</h4>
+                    <h4>Key Requirements:</h4>
                     <ul class="challenge-list">
-                        <li><span class="boldy">Objective:</span> Generate a complex, interactive web asset (Tetris game).</li>
-                        <li><span class="boldy">Method:</span> Utilize Few-Shot Learning to establish core coding patterns and logic within Claude.</li>
-                        <li><span class="boldy">Output Constraints:</span> Functional, well-structured, single HTML file (as generated by Claude's Artifact).</li>
+                        <li><span class="boldy">Objective:</span> Generate a complete, playable Tetris game using only AI prompts.</li>
+                        <li><span class="boldy">Method:</span> Utilize Claude's capabilities for structured code output and refine prompts through iterative few-shot examples.</li>
+                        <li><span class="boldy">Functionality:</span> Implement core Tetris mechanics (piece rotation, movement, line clearing, scoring).</li>
+                        <li><span class="boldy">Deployment:</span> Integrate the generated code into a deployable web project.</li>
                     </ul>
                 </div>
 
-                <h3>Leveraging Claude's Artifacts for Code Generation</h3>
-                <p>A key aspect of this project was exploiting <span class="boldy">Claude's "Artifacts" feature</span>. This powerful capability allows Claude to not only generate code but also to execute and display it within its interface. This live execution and validation loop significantly streamlines the development process when prompting for functional code. As stated in the course, "Los artefactos permiten a Claude ejecutar el código que se genera y son extremadamente poderosos porque le permiten aprovechar sus habilidades de codificación."</p>
-
-                <h3>Few-Shot Prompt Strategy for Tetris Logic</h3>
-                <p>To guide Claude in generating the Tetris game, a Few-Shot approach was employed. By providing a few examples of fundamental game elements – such as the data structure for a Tetromino or a basic movement function – Claude was able to infer the required patterns, logic, and overall game structure. This showcases how precise examples can lead to complex functional outputs.</p>
-
-                <div class="prompt-example mb-5">
-                    <h5>Simulated Claude Prompt: Few-Shot for Tetris Game Generation</h5>
-                    <pre><code><span class="prompt-comment"># ROLE: Eres un desarrollador experto de juegos en JavaScript.</span>
-<span class="prompt-role">ROLE:</span> Expert JavaScript Game Developer
-<span class="prompt-instruction">INSTRUCTION:</span> Genera un juego de Tetris completo en un único archivo HTML (HTML, CSS y JS combinados). El juego debe tener un diseño clásico, seguimiento de puntuación, progresión de niveles y una vista previa de la siguiente pieza. Toda la lógica del juego debe estar dentro de las etiquetas script. El código debe ser claro y bien comentado.
-
-<span class="prompt-example-label">EXAMPLE 1 (Estructura de Tetromino - L-shape):</span>
-  <span class="prompt-code-snippet">// Representación del tetromino en forma de L</span>
-  <span class="prompt-code-snippet">const lTetromino = [</span>
-  <span class="prompt-code-snippet">    [1, width+1, width*2+1, 2],</span>
-  <span class="prompt-code-snippet">    [width, width+1, width+2, width*2+2],</span>
-  <span class="prompt-code-snippet">    [1, width+1, width*2+1, width*2],</span>
-  <span class="prompt-code-snippet">    [width, width*2, width*2+1, width*2+2]</span>
-  <span class="prompt-code-snippet">];</span>
-
-<span class="prompt-example-label">EXAMPLE 2 (Función de movimiento básico - moveDown):</span>
-  <span class="prompt-code-snippet">function moveDown() {</span>
-  <span class="prompt-code-snippet">    undraw();</span>
-  <span class="prompt-code-snippet">    currentPosition += width;</span>
-  <span class="prompt-code-snippet">    draw();</span>
-  <span class="prompt-code-snippet">    freeze();</span>
-  <span class="prompt-code-snippet">}</span>
-
-<span class="prompt-comment"># Ahora, genera el archivo HTML completo del juego de Tetris.</span>
-<span class="prompt-instruction">OUTPUT:</span> [Claude genera el archivo HTML completo del Tetris aquí, incluyendo CSS y JS, como el archivo que tienes en 'tetris-game/index.html']</code></pre>
+                <h3>AI-Generated Tetris Game</h3>
+                <p>Below you can interact with the Tetris game, entirely generated through prompt engineering with Claude. This highlights AI's capability in developing robust, interactive web applications.</p>
+                
+                <div class="game-container">
+                    <iframe src="../projects/tetris-game/index.html" class="game-iframe" title="AI Generated Tetris Game"></iframe>
                 </div>
 
-                <p class="mt-4">Este enfoque va más allá de la generación de texto, demostrando cómo la ingeniería de prompts puede ser utilizada para <span class="boldy">crear activos funcionales complejos</span>. La clave residió en la claridad de los ejemplos y la precisión en la solicitud para aprovechar las capacidades de codificación de Claude.</p>
-            </section>
-
-            <section class="case-study-section text-center">
-                <h2>The Result: Your AI-Generated Tetris Game</h2>
-                <p>As generated by Claude, here is the functional Tetris game. It's a testament to the model's advanced code generation capabilities and the effectiveness of precise prompt engineering.</p>
-                <p class="text-muted"><em>"Y así, en menos de un minuto, tengo un juego de Tetris en funcionamiento que fue generado por Claude, y esto puede ser muy difícil de dejar de jugar, pero es extremadamente impresionante que este modelo pueda hacer esto, y en realidad es bastante útil que luego pueda ejecutar el código."</em></p>
-
-                <div class="game-iframe-container">
-                    <iframe src="tetris-game/index.html" title="AI-Generated Tetris Game"></iframe>
-                </div>
-                <a href="tetris-game/index.html" target="_blank" class="play-game-button">Play Tetris in Fullscreen →</a>
-            </section>
-
-            <section class="case-study-section">
-                <h2>Conclusion & Key Takeaways</h2>
                 <div class="key-takeaway">
-                    <p class="mb-0">"This project dramatically illustrates the potential of Few-Shot Learning and advanced Prompt Engineering with LLMs like Claude to transcend simple text generation. By leveraging Claude's Artifacts, we can generate, execute, and validate complex functional code, proving that AI is not just for content, but also a powerful tool for rapid application development and prototyping."</p>
+                    <p><span class="boldy">Key Takeaway:</span> Generating a complex game like Tetris demonstrates that AI, particularly with Few-Shot Learning and advanced output features like Claude's Artifacts, can produce not just snippets but entire functional applications. This significantly accelerates development cycles for interactive web experiences.</p>
                 </div>
-            </section>
-
-            <section class="case-study-section text-center">
-                <div class="navigation-buttons">
-                    <a href="prompt_engineering_case-study1.html" class="btn">← Case Study 1</a>
-                    <a href="../index.html" class="btn back-to-hub-btn">Portfolio Hub</a>
-                    </div>
             </section>
         </div>
     </main>
-
-    <footer class="text-center py-4 bg-dark text-white">
-        <p>© 2025 Javiam Allen. Built with Wonderlust by <span class="boldy">Gemini Pro 2.5</span>.</p>
+    <footer class="container-fluid">
+        <div class="navigation-buttons">
+            <a href="prompt_engineering_case-study1.html" class="btn">← Previous Case Study</a>
+            <a href="../index.html" class="btn back-to-hub-btn">Back to Portfolio Hub →</a>
+        </div>
+        <p class="text-center mt-3 mb-0">© 2025 Javiam Allen. Built with AI-Accelerated Wonderlust by Gemini Pro 2.5 Model <span id="heart-symbol">&#x2764;</span>.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
 </html>
